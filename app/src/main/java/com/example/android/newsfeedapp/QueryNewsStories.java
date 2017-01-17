@@ -17,7 +17,7 @@ import java.util.List;
 public final class QueryNewsStories {
 
     private static final String TAG = QueryNewsStories.class.getSimpleName();
-    private final String BASE_URL = ;
+    private final String BASE_URL = "";
 
     private QueryNewsStories() {}
 

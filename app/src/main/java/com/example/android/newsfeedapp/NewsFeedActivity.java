@@ -33,6 +33,9 @@ public class NewsFeedActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
 
         mProgressBar.setVisibility(View.GONE);
+
+        //TODO Check For Connection
+        //TODO Build out the other methods
     }
 
     @Override

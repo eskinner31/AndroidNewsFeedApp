@@ -1,13 +1,22 @@
 package com.example.android.newsfeedapp;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -17,14 +26,13 @@ import java.util.List;
 public final class QueryNewsStories {
 
     private static final String TAG = QueryNewsStories.class.getSimpleName();
-    private final String BASE_URL = "";
 
     private QueryNewsStories() {}
 
     //Request for List of Stories
-    public static List<Story> getNewsStories(String request) {
+    public static List<Story> getNewsStories(String requestUrl) {
         String response = null;
-        URL url = createUrl(request);
+        URL url = createUrl(requestUrl);
 
         try {
             response = newsHttpRequest(url);
@@ -38,7 +46,14 @@ public final class QueryNewsStories {
     }
 
     private static URL createUrl(String stringUrl) {
+        URL url = null;
 
+        try {
+            url = new URL(stringUrl);
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "createUrl: Problem with URL", e);
+        }
+        return url;
     }
 
     private static String newsHttpRequest(URL url) throws IOException {
@@ -52,28 +67,78 @@ public final class QueryNewsStories {
         InputStream inputStream = null;
 
         try {
+            //CASTING THE URL as a HttpURLConnection. This is how we know where the call is directed
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setReadTimeout(10000);
+            urlConnection.setConnectTimeout(15000);
+            urlConnection.setRequestMethod("GET");
+            urlConnection.connect();
 
+            if (urlConnection.getResponseCode() == 200) {
+                inputStream = urlConnection.getInputStream();
+                response = streamReader(inputStream);
+            }
         } catch (IOException e) {
             Log.e(TAG, "newsHttpRequest: ", e);
         } finally {
 
+            //CLOSE ALL CONNECTIONS AND STREAMS
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+
+            if (inputStream != null) {
+                inputStream.close();
+            }
         }
+
+        //RETURN RESULT
+        return response;
     }
 
     private static String streamReader(InputStream inputStream) throws IOException {
-
+        StringBuilder output = new StringBuilder();
+        if (inputStream != null) {
+            InputStreamReader inputStreamReader =
+                    new InputStreamReader(inputStream, Charset.forName("UTF-8"));
+            BufferedReader reader = new BufferedReader(inputStreamReader);
+            String line = reader.readLine();
+            while (line != null) {
+                output.append(line);
+                line = reader.readLine();
+            }
+        }
+        return output.toString();
     }
 
     private static List<Story> parseJsonFeatures(String newsStoryResults) {
-
-    }
-
-    private static Bitmap getStoryImage(String imageUrlSource) throws IOException {
-        try {
-
-        } catch (IOException e) {
-            Log.e(TAG, "getStoryImage: ", e);
+        if (TextUtils.isEmpty(newsStoryResults)) {
+            return Collections.EMPTY_LIST;
         }
-        return null;
+
+        List<Story> stories = new ArrayList<>();
+
+        try {
+            JSONObject responseObject = new JSONObject(newsStoryResults);
+            JSONArray storiesArray = responseObject.getJSONArray("results");
+
+            for (int i = 0; i < storiesArray.length(); i++) {
+                JSONObject currentStory = storiesArray.getJSONObject(i);
+
+                String storyTitle = currentStory.getString("webTitle");
+                String storySectionName = currentStory.getString("sectionName");
+                String storyStringUrl = currentStory.getString("webUrl");
+
+                String storyPublicationDate = currentStory.getString("webPublicationDate");
+
+                Story story = new Story(storyTitle, storyStringUrl, storySectionName, storyPublicationDate);
+
+                stories.add(story);
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "parseJsonFeatures: Issues with the parsing", e);
+        }
+
+        return stories;
     }
 }

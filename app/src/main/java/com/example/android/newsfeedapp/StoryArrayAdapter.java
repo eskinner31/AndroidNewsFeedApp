@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -38,12 +37,10 @@ public class StoryArrayAdapter extends ArrayAdapter<Story> {
         //getting the current story at index
         Story currentStory = getItem(position);
 
-        holder.storyAuthor.setText(currentStory.getmAuthor());
-        holder.storyDescription.setText(currentStory.getmDescription());
+//        holder.storyAuthor.setText(currentStory.getmAuthor());
         holder.storyPublishDate.setText(currentStory.getmDate());
         holder.storySection.setText(currentStory.getmSection());
         holder.storyTitle.setText(currentStory.getmTitle());
-        holder.storyImage.setImageBitmap(currentStory.getmImage());
 
         return convertView;
     }
@@ -53,12 +50,10 @@ public class StoryArrayAdapter extends ArrayAdapter<Story> {
      * What is the general rule of thumb on deciding when it's best to use a static class?
      */
     static class ViewHolder {
-        @BindView(R.id.story_description) TextView storyDescription;
-        @BindView(R.id.story_author) TextView storyAuthor;
+//        @BindView(R.id.story_author) TextView storyAuthor;
         @BindView(R.id.story_publish_date) TextView storyPublishDate;
         @BindView(R.id.story_section) TextView storySection;
         @BindView(R.id.story_title) TextView storyTitle;
-        @BindView(R.id.story_image) ImageView storyImage;
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);

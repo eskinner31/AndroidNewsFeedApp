@@ -20,6 +20,7 @@ public class NewsFeedActivity extends AppCompatActivity implements
         SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = NewsFeedActivity.class.getSimpleName();
+    private static final String BASE_URL = "https://content.guardianapis.com/search";
     private Context mContext;
     @BindView(R.id.news_feed_view) ListView mNewsFeedView;
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;

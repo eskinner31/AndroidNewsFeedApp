@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/settings_title">
+
+    <ListPreference
+        android:key="@string/segments_key"
+        android:title="@string/segments_key"
+        android:entries="@array/SegmentStrings"
+        android:entryValues="@array/SegmentValues"
+        android:defaultValue="@string/segments_default_value"/>
+
+</PreferenceScreen>

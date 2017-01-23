@@ -34,11 +34,8 @@ public class StoryArrayAdapter extends ArrayAdapter<Story> {
             convertView.setTag(holder);
         }
 
-        //getting the current story at index
         Story currentStory = getItem(position);
 
-//        holder.storyAuthor.setText(currentStory.getmAuthor());
-        holder.storyPublishDate.setText(currentStory.getmDate());
         holder.storySection.setText(currentStory.getmSection());
         holder.storyTitle.setText(currentStory.getmTitle());
 
@@ -50,8 +47,6 @@ public class StoryArrayAdapter extends ArrayAdapter<Story> {
      * What is the general rule of thumb on deciding when it's best to use a static class?
      */
     static class ViewHolder {
-//        @BindView(R.id.story_author) TextView storyAuthor;
-        @BindView(R.id.story_publish_date) TextView storyPublishDate;
         @BindView(R.id.story_section) TextView storySection;
         @BindView(R.id.story_title) TextView storyTitle;
 

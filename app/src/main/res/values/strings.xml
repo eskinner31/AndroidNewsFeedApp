@@ -3,4 +3,23 @@
     <string name="api_key">1ed8d81e-8f21-45fb-bb79-d39616893e9f</string>
     <string name="settings_menu_item">Settings</string>
     <string name="settings_title">Story Settings</string>
+    <string name="no_data">No Data Returned</string>
+    <string name="no_connection">No Data Connection</string>
+
+    <string name="segments_key">segments</string>
+    <string name="segments_default_value">politics</string>
+
+    <string-array name="SegmentStrings">
+        <item>Politics</item>
+        <item>Sports</item>
+        <item>Business</item>
+        <item>Global</item>
+    </string-array>
+
+    <string-array name="SegmentValues">
+        <item>politics</item>
+        <item>sports</item>
+        <item>business</item>
+        <item>global</item>
+    </string-array>
 </resources>

@@ -120,7 +120,8 @@ public final class QueryNewsStories {
 
         try {
             JSONObject responseObject = new JSONObject(newsStoryResults);
-            JSONArray storiesArray = responseObject.getJSONArray("results");
+            JSONObject topLevelResponseObj = responseObject.getJSONObject("response");
+            JSONArray storiesArray = topLevelResponseObj.getJSONArray("results");
 
             for (int i = 0; i < storiesArray.length(); i++) {
                 JSONObject currentStory = storiesArray.getJSONObject(i);
@@ -129,9 +130,7 @@ public final class QueryNewsStories {
                 String storySectionName = currentStory.getString("sectionName");
                 String storyStringUrl = currentStory.getString("webUrl");
 
-                String storyPublicationDate = currentStory.getString("webPublicationDate");
-
-                Story story = new Story(storyTitle, storyStringUrl, storySectionName, storyPublicationDate);
+                Story story = new Story(storyTitle, storyStringUrl, storySectionName);
 
                 stories.add(story);
             }

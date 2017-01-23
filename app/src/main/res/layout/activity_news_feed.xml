@@ -21,4 +21,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <TextView
+        android:id="@+id/no_connection_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20sp"
+        android:text="@string/no_connection"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/no_data_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20sp"
+        android:text="@string/no_data"
+        android:visibility="gone"/>
+
 </RelativeLayout>
